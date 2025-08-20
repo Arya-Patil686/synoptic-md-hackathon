@@ -43,7 +43,7 @@ const DashboardPage = () => {
 
     const runPrognosis = () => {
         setIsPrognosisLoading(true); setPrognosisError(''); setPrognosisReport('');
-        axios.get(`http://127.0.0.1:5001/api/patient/${patientId}/prognosis`)
+        api.get(`\/api/patient/${patientId}/prognosis`)
           .then(res => setPrognosisReport(res.data.prognosis_report))
           .catch(() => setPrognosisError("Failed to generate prognosis."))
           .finally(() => setIsPrognosisLoading(false));
@@ -52,7 +52,7 @@ const DashboardPage = () => {
     const formatNotes = () => {
         if(!rawNotes) return;
         setIsFormatting(true); setSaveSuccess('');
-        axios.post('http://127.0.0.1:5001/api/streamline_note', { notes: rawNotes })
+        api.post('/api/streamline_note', { notes: rawNotes })
           .then(res => setFormattedNote(res.data.formatted_note))
           .finally(() => setIsFormatting(false));
     };
@@ -61,7 +61,7 @@ const DashboardPage = () => {
         if(!formattedNote) return;
         setIsSaving(true); setSaveSuccess('');
         const today = new Date().toISOString().split('T')[0];
-        axios.post(`http://127.0.0.1:5001/api/patient/${patientId}/notes`, { note_content: formattedNote, note_date: today })
+        api.post(`\/api/patient/${patientId}/notes`, { note_content: formattedNote, note_date: today })
           .then(res => {
           // Now using our universal data updater!
             handleDataUpdate({ ...patientData, medical_history: res.data.new_history });
@@ -76,7 +76,7 @@ const DashboardPage = () => {
         const userMessage = { role: 'user', content: messageText };
         setChatHistory(prev => [...prev, userMessage]);
         setChatInput(''); setIsChatting(true);
-        axios.post(`http://127.0.0.1:5001/api/chat`, { question: messageText, patientId: patientId })
+        api.post(`\/api/chat`, { question: messageText, patientId: patientId })
           .then(res => setChatHistory(prev => [...prev, { role: 'ai', content: res.data.answer }]))
           .catch(() => setChatHistory(prev => [...prev, { role: 'ai', content: 'Sorry, an error occurred.' }]))
           .finally(() => setIsChatting(false));
@@ -100,7 +100,7 @@ const DashboardPage = () => {
 
     useEffect(() => {
         setLoading(true);
-        axios.get(`http://127.0.0.1:5001/api/patient/${patientId}`)
+        api.get(`\/api/patient/${patientId}`)
           .then(res => { setPatientData(res.data); setLoading(false); })
           .catch(err => { setError(`Could not load data for patient ${patientId}.`); setLoading(false); });
     }, [patientId]);

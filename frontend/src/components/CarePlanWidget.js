@@ -14,7 +14,7 @@ const CarePlanWidget = ({ patient, onDataUpdate }) => {
   const handleClose = () => setOpen(false);
 
   const handleSave = () => {
-    axios.post(`http://127.0.0.1:5001/api/patient/${patient.id}/careplan`, {
+    api.post(`\/api/patient/${patient.id}/careplan`,  {
       type: itemType,
       description: description
     })

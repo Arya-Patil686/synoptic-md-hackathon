@@ -30,7 +30,7 @@ const PatientListPage = () => {
     }
     setUser(loggedInUser);
 
-    axios.get(`http://127.0.0.1:5001/api/patients/${loggedInUser.id}`)
+    api.get(`/api/patients/${loggedInUser.id}`)
       .then(response => {
         setPatients(response.data);
         setLoading(false);
