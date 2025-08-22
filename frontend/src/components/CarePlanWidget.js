@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import api from '../api';
+import api from '../api'; // Changed from axios
 import { Box, Button, Typography, Paper, List, ListItem, ListItemIcon, ListItemText, Divider, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import MedicationIcon from '@mui/icons-material/Medication';
@@ -14,15 +14,15 @@ const CarePlanWidget = ({ patient, onDataUpdate }) => {
   const handleClose = () => setOpen(false);
 
   const handleSave = () => {
-    api.post(`\/api/patient/${patient.id}/careplan`,  {
+    // The URL is now clean, without unnecessary escaping
+    api.post(`/api/patient/${patient.id}/careplan`, {
       type: itemType,
       description: description
     })
     .then(response => {
-      
       onDataUpdate(response.data);
-      handleClose(); 
-      setDescription(''); 
+      handleClose();
+      setDescription('');
     })
     .catch(console.error);
   };
@@ -49,7 +49,6 @@ const CarePlanWidget = ({ patient, onDataUpdate }) => {
         ))}
       </List>
 
-      {/* --- The Pop-up Modal Dialog --- */}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Add New Care Plan Order</DialogTitle>
         <DialogContent>

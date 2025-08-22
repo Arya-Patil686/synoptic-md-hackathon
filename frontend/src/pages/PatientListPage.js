@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
-import { Container, Box, Typography, Paper, List, ListItem, ListItemButton, ListItemText, CircularProgress, Alert, Chip } from '@mui/material';
+import { Container, Typography, Paper, List, ListItem, ListItemButton, ListItemText, CircularProgress, Alert, Chip } from '@mui/material'; // 'Box' is removed
 
 const getRiskChip = (riskScore) => {
   let color = 'default';
   if (riskScore === 'High') {
-    color = 'error'; // Red
+    color = 'error';
   } else if (riskScore === 'Moderate') {
-    color = 'warning'; // Orange
+    color = 'warning';
   } else if (riskScore === 'Low') {
-    color = 'success'; // Green
+    color = 'success';
   }
   return <Chip label={riskScore || 'Unknown'} color={color} size="small" />;
 };
